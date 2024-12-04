@@ -1,66 +1,66 @@
 
-# Définir le plateau de Tic Tac Toe comme une grille 3x3
-board = [[' ' for _ in range(3)] for _ in range(3)] # On crée une liste qui contenant un autre liste
+# Defining the board as a list containing lists, 3x3 
+board = [[' ' for _ in range(3)] for _ in range(3)] # We create a list containing other lists, we use list comprehension
 
-# Fonction pour afficher le plateau
+# Fonction to print the board on the screen
 def print_board():
-    for row in board:  # Parcourir chaque rangée du plateau
-        print('|'.join(row))  # Afficher les cases de la rangée séparées par des barres verticales
-        print('-' * 5)  # Afficher une ligne de séparation entre les rangées
+    for row in board:  # Looping through each line of the board
+        print('|'.join(row))  # Print the cases of each line separated by vertical bars
+        print('-' * 5)  # Print lines separating rows
 
-# Fonction pour vérifier si un joueur a gagné
+# Fonction to check if a player has won (game conditions)
 def check_win(player):
-    for i in range(3):  # Vérifier les lignes et colonnes
+    for i in range(3):  # Check for lines and columns using built-in all function 
         if all([board[i][j] == player for j in range(3)]) or \
            all([board[j][i] == player for j in range(3)]):
-            return True  # Retourner vrai si une ligne ou colonne est complète
+            return True  # Return true if a line or a column is filled in with player's symbol
         
-    # Vérifier les diagonales
+    # Checking diagonals
     if board[0][0] == player and board[1][1] == player and board[2][2] == player:
-        return True  # Diagonale principale complète
+        return True  # First diagonal
     if board[0][2] == player and board[1][1] == player and board[2][0] == player:
-        return True  # Diagonale secondaire complète
-    return False  # Aucun gagnant
+        return True  # Second diagonal
+    return False  # No winner
 
-# Fonction pour vérifier si toutes les cases sont occupées
+# Fonction to check if the board is not full (condition for draw)
 def is_board_full():
-    return all(board[i][j] != ' ' for i in range(3) for j in range(3))  # Vérifie si toutes les cases sont occupées
+    return all(board[i][j] != ' ' for i in range(3) for j in range(3))  # Check if all the cases are not taken
 
-# Fonction pour permettre à un joueur de faire un mouvement
+# Fonction to allow a player to make a move
 def make_move(player):
-    while True:  # Boucle pour saisir un coup valide
+    while True:  # A loop to get a valid move
         try:
-            row = int(input(f"Joueur {player}, entrez la ligne (0-2) : "))  # Demander la ligne
-            col = int(input(f"Joueur {player}, entrez la colonne (0-2) : "))  # Demander la colonne
-            if board[row][col] == ' ':  # Vérifier si la case est libre
-                board[row][col] = player  # Placer le symbole du joueur sur le plateau
-                break  # Sortir de la boucle si le coup est valide
+            row = int(input(f"Joueur {player}, entrez la ligne (0-2) : "))  # Ask a player to choose a line
+            col = int(input(f"Joueur {player}, entrez la colonne (0-2) : "))  # Ask a player to choose a column
+            if board[row][col] == ' ':  # Check if the case is empty
+                board[row][col] = player  # Placing player's symbol, X or O 
+                break  # Get out of loop if the move is valid
             else:
-                print("Case déjà occupée, veuillez choisir une autre case.")  # Message pour case occupée
-        except (ValueError, IndexError):  # Gérer les erreurs d'entrée
-            print("Entrée incorrecte, veuillez entrer un nombre compris entre 0 et 2.")  # Message d'erreur si l'input n'est pas un nombre compris entre 0 et 2. 
+                print("Case déjà occupée, veuillez choisir une autre case.")  # Message to print of the case is taken
+        except (ValueError, IndexError):  # Handling errors
+            print("Entrée incorrecte, veuillez entrer un nombre compris entre 0 et 2.")  # Error message if the entered number is not an integer between 0 and 2. 
 
-# Boucle principale du jeu
+# Main Game Loop
 def play_game():
-    current_player = 'X'  # Le joueur X commence
-    while True:
-        print_board()  # Afficher le plateau
-        make_move(current_player)  # Demander un mouvement au joueur actuel
+    current_player = 'X'  #  Player X starts
+    while True: # Loop running until the game end conditions (victory or draw) are not met
+        print_board()  # Print the board
+        make_move(current_player)  # Ask the player to make a move
 
-        # Vérifier si le joueur actuel a gagné
+        # Check if there is a winner (end condition)
         if check_win(current_player):
-            print_board()  # Afficher le plateau final
-            print(f"Le joueur {current_player} gagne !")  # Annoncer le gagnant
-            break  # Fin du jeu
+            print_board()  # Show the final outlook of the board
+            print(f"Le joueur {current_player} gagne !")  # Announce the winner
+            break  # End the loop
 
-        # Vérifier si le jeu est un match nul
+        # Check if the board is full (end condition for draw)
         if is_board_full():
-            print_board()  # Afficher le plateau final
-            print("C'est un match nul !")  # Annoncer le match nul
-            break  # Fin du jeu
+            print_board()  # Print the board
+            print("C'est un match nul !")  # Announce the draw
+            break  # End the loop
 
-        # Changer de joueur
+        # Switch player
         current_player = 'O' if current_player == 'X' else 'X'  # Alterner entre X et O
 
-# Lancer le jeu
+# Launch the game
 play_game()
