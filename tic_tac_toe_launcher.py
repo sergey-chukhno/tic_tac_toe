@@ -1,18 +1,18 @@
 from tkinter import messagebox
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
-import subprocess  # Pour lancer des scripts Python externes
+import subprocess  # Module to launch external scripts
 
 # Function to run the selected game
 def run_game(file_name):
     try:
-        subprocess.run(["python", file_name], check=True)  # Lancer le fichier du jeu
+        subprocess.run(["python", file_name], check=True)  # Launch game
     except FileNotFoundError:
         messagebox.showerror("Erreur", f"Le fichier '{file_name}' est introuvable.")
     except Exception as e:
         messagebox.showerror("Erreur", f"Une erreur s'est produite : {str(e)}")
 
-# Creer la fenetre principale 
+# Creating main window
 app = ttk.Window(themename="cyborg")
 app.title("Tic Tac Toe: Choisissez votre jeu")
 app.geometry("700x500")
@@ -31,7 +31,7 @@ title_label.pack(pady=20)
 style = ttk.Style()
 style.configure('TButton.primary-outline', font=('Roboto', 24))
 
-# Cadre pour les boutons
+# Frame for buttons
 button_frame = ttk.Frame(app)
 button_frame.pack(expand=True, fill=BOTH, padx=20, pady=20)
 
@@ -43,7 +43,7 @@ games = [
     ("Jouer avec l'IA avec interface graphique", "tic_tac_toe_ai_gui.py")
 ]
 
-# Creer les boutons pour chaque version du jeu
+# Create buttons for the game
 for idx, (label, file_name) in enumerate(games):
     button = ttk.Button(
         button_frame,
@@ -54,11 +54,11 @@ for idx, (label, file_name) in enumerate(games):
     )
     button.grid(row=idx // 2, column=idx % 2, padx=10, pady=10, sticky="nsew")
 
-# Configurer la grille
+# Configuring grid appearance
 for i in range(2):  # deux lignes
     button_frame.rowconfigure(i, weight=1)
 for j in range(2):  # deux colonnes
     button_frame.columnconfigure(j, weight=1)
 
-# Lancer l'application
+# Launch application
 app.mainloop()
